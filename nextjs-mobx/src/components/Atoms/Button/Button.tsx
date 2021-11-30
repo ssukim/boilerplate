@@ -3,11 +3,11 @@ import React from "react";
 
 type Props = {
   label: string;
-};
-export default function Button({ label }: Props) {
+} & React.ComponentPropsWithoutRef<"button">;
+export default function Button({ label, ...rest }: Props) {
   return (
     <>
-      <StyledButton>{label}</StyledButton>
+      <StyledButton {...rest}>{label}</StyledButton>
     </>
   );
 }
