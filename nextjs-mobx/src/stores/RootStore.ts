@@ -11,7 +11,6 @@ export class RootStore {
   }
 
   hydrate(data: RootStoreHydration) {
-    console.log("🚀 ~ file: RootStore.ts ~ line 14 ~ RootStore ~ hydrate ~ data", data)
     if (data) {
       this.counterStore.hydrate(data as CounterHydration);
     }

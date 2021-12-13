@@ -30,7 +30,6 @@ export function RootStoreProvider({
   hydrationData?: RootStoreHydration;
 }) {
   const store = initializeStore(hydrationData);
-  console.log("🚀 ~ file: RootStoreProvider.tsx ~ line 33 ~ hydrationData", hydrationData)
 
   return (
     <StoreContext.Provider value={store}>{children}</StoreContext.Provider>
