@@ -1,16 +1,15 @@
-import React, { InputHTMLAttributes } from "react";
-import styled from "styled-components";
+import React, { InputHTMLAttributes } from 'react';
+import styled from 'styled-components';
 
 type Props = {
-  name: string;
-  
+    name: string;
 } & InputHTMLAttributes<HTMLInputElement>;
 export default function Input({ name, ...rest }: Props) {
-  return (
-    <>
-      <StyledInput id={name} {...rest} />
-    </>
-  );
+    return (
+        <>
+            <StyledInput id={name} {...rest} />
+        </>
+    );
 }
 
 const StyledInput = styled.input``;
