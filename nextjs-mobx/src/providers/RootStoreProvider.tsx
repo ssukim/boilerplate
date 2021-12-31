@@ -22,6 +22,11 @@ export function useCounterStore() {
     return counterStore;
 }
 
+export function useTodoStore() {
+    const { todoStore } = useRootStore();
+    return todoStore;
+}
+
 export function RootStoreProvider({
     children,
     hydrationData,

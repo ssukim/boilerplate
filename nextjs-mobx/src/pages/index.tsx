@@ -2,7 +2,7 @@ import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 // import type { NextPage } from 'next';
 import Head from 'next/head';
 import { CMS_NAME } from '../lib/constants';
-import Counter from '../components/Molecules/Counter';
+import Todo from '../components/Organisms/Todo';
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
     let start = 0;
@@ -30,7 +30,7 @@ export default function Index({ data }: InferGetServerSidePropsType<typeof getSe
             </Head>
 
             <main>
-                <Counter />
+                <Todo />
             </main>
 
             <footer></footer>
