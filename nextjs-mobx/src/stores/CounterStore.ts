@@ -1,4 +1,4 @@
-import { action, computed, makeObservable, observable, runInAction } from 'mobx';
+import { action, makeObservable, observable, runInAction } from 'mobx';
 import { RootStore } from './RootStore';
 
 export type CounterHydration = {
@@ -23,7 +23,7 @@ export class CounterStore {
             hydrate: action,
             size: observable,
             state: observable,
-            counter: observable
+            counter: observable,
         });
     }
 
