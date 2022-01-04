@@ -2,7 +2,7 @@ import { CounterHydration, CounterStore } from './CounterStore';
 import { TodoHydration, TodoStore } from './TodoStore';
 export type RootStoreHydration = {
     hydrationData?: CounterHydration;
-    todoHydrationData?: TodoHydration;
+    todoHydrationData?: TodoHydration[];
 };
 export class RootStore {
     counterStore: CounterStore;
@@ -15,7 +15,7 @@ export class RootStore {
 
     hydrate(data: RootStoreHydration) {
         if (data) {
-            this.counterStore.hydrate(data as CounterHydration);
+            this.todoStore.hydrate(data as TodoHydration[]);
         }
     }
 }

@@ -1,5 +1,6 @@
+import { toJS } from 'mobx';
 import { observer } from 'mobx-react-lite';
-import { ChangeEvent, FormEvent, useCallback, useState } from 'react';
+import { ChangeEvent, FormEvent, useCallback, useMemo, useState } from 'react';
 import styled from 'styled-components';
 import { useTodoStore } from '../../../providers/RootStoreProvider';
 import { TodoHydration } from '../../../stores/TodoStore';
@@ -8,20 +9,16 @@ import Input from '../../Atoms/Input';
 
 function Todo() {
     const store = useTodoStore();
-    const [formData, setFormData] = useState<TodoHydration>({
-        todoData: {
-            title: '',
-            description: '',
-        },
-    });
+    const todoData = toJS(store.todo);
 
-    console.log(store.todo);
+    const [formData, setFormData] = useState<TodoHydration>();
 
     const onClickSubmit = useCallback(
         (e: FormEvent<HTMLFormElement>) => {
-            e.preventDefault();
-            store.add(formData);
-            console.log('🚀 ~ file: Todo.tsx ~ line 22 ~ onClickSubmit ~ formData', formData);
+            if (formData) {
+                e.preventDefault();
+                store.add(formData);
+            }
         },
         [formData, store]
     );
@@ -29,29 +26,67 @@ function Todo() {
     const onChange = useCallback(
         (e: ChangeEvent<HTMLInputElement>) => {
             const { value } = e.target;
-            const data = { ...formData };
-            data.todoData.title = value;
 
-            setFormData(data);
+            setFormData({
+                title: value,
+                description: value,
+            });
+
+            console.log(formData);
         },
         [formData]
     );
 
     return (
         <form onSubmit={onClickSubmit}>
-            <Wrapper>
+            <TopSection>
                 <Input name="title" onChange={onChange} />
                 <Button label={'Add'} type={'submit'} />
-            </Wrapper>
+            </TopSection>
             <div>
-                <div>{store.todo.todoData.title}</div>
+                <TitleContainer>
+                    <h1>title</h1>
+                    <h1>description</h1>
+                </TitleContainer>
+                {todoData &&
+                    todoData.map((item, index) => (
+                        <Container key={index}>
+                            <IndexBox>
+                                <h1>{index + 1}</h1>
+                            </IndexBox>
+                            <ContentBox>{item.title}</ContentBox>
+                            <ContentBox>{item.description}</ContentBox>
+                        </Container>
+                    ))}
             </div>
         </form>
     );
 }
 
-const Wrapper = styled.div`
+const TopSection = styled.div`
     display: flex;
+`;
+
+const TitleContainer = styled.div`
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    left: 50px;
+    width: 50%;
+`;
+
+const Container = styled.div`
+    display: flex;
+    align-items: center;
+    width: 100%;
+`;
+
+const IndexBox = styled.div`
+    margin-right: 20px;
+`;
+
+const ContentBox = styled.div`
+    margin-right: 10px;
 `;
 
 export default observer(Todo);

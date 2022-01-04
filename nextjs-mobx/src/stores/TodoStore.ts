@@ -2,20 +2,13 @@ import { action, makeObservable, observable, runInAction } from 'mobx';
 import { RootStore } from './RootStore';
 
 export type TodoHydration = {
-    todoData: {
-        title: string;
-        description: string;
-    };
+    title: string;
+    description: string;
 };
 
 export class TodoStore {
     root: RootStore;
-    todo: TodoHydration = {
-        todoData: {
-            title: 'title',
-            description: 'description',
-        },
-    };
+    todo: TodoHydration[] = [];
 
     constructor(root: RootStore) {
         this.root = root;
@@ -32,13 +25,14 @@ export class TodoStore {
 
     protected addTodo(todo: TodoHydration) {
         runInAction(() => {
-            this.todo = todo;
+            this.todo.push(todo);
         });
     }
 
-    hydrate(data?: TodoHydration) {
+    hydrate(data?: TodoHydration[]) {
         if (data) {
-            // this.title = data.title;
+            console.log('🚀 ~ file: TodoStore.ts ~ line 36 ~ TodoStore ~ hydrate ~ data', data);
+            this.todo = data;
         }
     }
 }

@@ -1,39 +1,42 @@
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
-// import type { NextPage } from 'next';
 import Head from 'next/head';
 import { CMS_NAME } from '../lib/constants';
 import Todo from '../components/Organisms/Todo';
+import Layout from '../components/Templates/Layout';
+import axios from 'axios';
+import { TodoHydration } from '../stores/TodoStore';
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-    let start = 0;
-
-    if (ctx.query.start && typeof ctx.query.start == 'string') {
-        start = Number(ctx.query.start);
-    }
+export const getServerSideProps: GetServerSideProps = async () => {
+    const hydrationData: TodoHydration[] = await axios
+        .get('http://localhost:3000/api/todos')
+        .then(function (response) {
+            // handle success
+            return response.data;
+        })
+        .catch(function (error) {
+            // handle error
+            console.log(error);
+            throw new Error(error);
+        });
 
     return {
         props: {
-            hydrationData: {
-                start,
-            },
+            hydrationData,
         },
     };
 };
 
-export default function Index({ data }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-    console.log(data);
-
+export default function Index({
+    hydrationData,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
     return (
         <div>
             <Head>
                 <title>Next.js Head {CMS_NAME}</title>
             </Head>
-
-            <main>
+            <Layout>
                 <Todo />
-            </main>
-
-            <footer></footer>
+            </Layout>
         </div>
     );
 }
