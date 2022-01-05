@@ -11,13 +11,20 @@ function Todo() {
     const store = useTodoStore();
     const todoData = toJS(store.todo);
 
-    const [formData, setFormData] = useState<TodoHydration>();
+    const [formData, setFormData] = useState<TodoHydration>({
+        title: '',
+        description: '',
+    });
 
     const onClickSubmit = useCallback(
         (e: FormEvent<HTMLFormElement>) => {
+            e.preventDefault();
             if (formData) {
-                e.preventDefault();
                 store.add(formData);
+                setFormData({
+                    title: '',
+                    description: '',
+                });
             }
         },
         [formData, store]
@@ -25,54 +32,75 @@ function Todo() {
 
     const onChange = useCallback(
         (e: ChangeEvent<HTMLInputElement>) => {
-            const { value } = e.target;
+            if (formData) {
+                const { value } = e.target;
 
-            setFormData({
-                title: value,
-                description: value,
-            });
+                const name = e.target.id;
 
-            console.log(formData);
+                setFormData({
+                    ...formData,
+                    [name]: value,
+                });
+            } else {
+                setFormData({
+                    title: '',
+                    description: '',
+                });
+            }
         },
         [formData]
     );
 
     return (
         <form onSubmit={onClickSubmit}>
-            <TopSection>
-                <Input name="title" onChange={onChange} />
-                <Button label={'Add'} type={'submit'} />
-            </TopSection>
-            <div>
-                <TitleContainer>
-                    <h1>title</h1>
-                    <h1>description</h1>
-                </TitleContainer>
-                {todoData &&
-                    todoData.map((item, index) => (
-                        <Container key={index}>
-                            <IndexBox>
-                                <h1>{index + 1}</h1>
-                            </IndexBox>
-                            <ContentBox>{item.title}</ContentBox>
-                            <ContentBox>{item.description}</ContentBox>
-                        </Container>
-                    ))}
-            </div>
+            <Wrapper>
+                <TopSection>
+                    <Input name="title" value={formData.title} onChange={onChange} />
+
+                    <Input name="description" value={formData.description} onChange={onChange} />
+
+                    <Button label={'Add'} type={'submit'} />
+                </TopSection>
+                <BottomSection>
+                    <TitleContainer>
+                        <h1>title</h1>
+                        <h1>description</h1>
+                    </TitleContainer>
+                    {todoData &&
+                        todoData.map((item, index) => (
+                            <Container key={index}>
+                                <IndexBox>
+                                    <h2>{index + 1}</h2>
+                                </IndexBox>
+                                <TitleBox>{item.title}</TitleBox>
+                                <DescriptionBox>{item.description}</DescriptionBox>
+                            </Container>
+                        ))}
+                </BottomSection>
+            </Wrapper>
         </form>
     );
 }
 
+const Wrapper = styled.div`
+    display: flex;
+    height: 100vh;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+`;
+
 const TopSection = styled.div`
     display: flex;
+
+    Input {
+        margin-right: 10px;
+    }
 `;
 
 const TitleContainer = styled.div`
     display: flex;
-    justify-content: space-between;
-    position: relative;
-    left: 50px;
-    width: 50%;
+    justify-content: space-around;
 `;
 
 const Container = styled.div`
@@ -81,12 +109,21 @@ const Container = styled.div`
     width: 100%;
 `;
 
-const IndexBox = styled.div`
-    margin-right: 20px;
+const BottomSection = styled.div`
+    max-width: 800px;
 `;
 
-const ContentBox = styled.div`
-    margin-right: 10px;
+const IndexBox = styled.span`
+    width: 5%;
+`;
+
+const TitleBox = styled.span`
+    width: 40%;
+    margin-right: 30px;
+`;
+
+const DescriptionBox = styled.span`
+    width: 55%;
 `;
 
 export default observer(Todo);

@@ -1,4 +1,5 @@
 import React from 'react';
+import styled from 'styled-components';
 
 import Footer from '../../Organisms/Footer';
 import Meta from '../Meta';
@@ -12,11 +13,8 @@ const Layout = ({ children }: Props) => {
     return (
         <>
             <Meta />
-            <div>
-                <main>{children}</main>
-            </div>
+            <main>{children}</main>
         </>
     );
 };
-
 export default Layout;
