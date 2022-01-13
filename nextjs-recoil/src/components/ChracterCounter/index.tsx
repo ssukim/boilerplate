@@ -1,1 +1,1 @@
-export { default } from "./ChracterCounter";
+export { default } from './ChracterCounter';
