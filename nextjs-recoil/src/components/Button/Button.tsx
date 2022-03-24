@@ -1,13 +1,14 @@
+import { ButtonHTMLAttributes } from 'react';
 import styled from 'styled-components';
 import palette from '../../lib/palette';
 
-function Button() {
-  const onClick = () => {
-    console.log('Click');
-  };
+type Props = {
+  label: string;
+} & ButtonHTMLAttributes<HTMLButtonElement>;
+function Button({ label }: Props) {
   return (
     <>
-      <StyledButton onClick={onClick}>test</StyledButton>
+      <StyledButton>{label}</StyledButton>
     </>
   );
 }

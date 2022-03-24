@@ -8,7 +8,7 @@ export default {
 export const TemplatesButton = () => {
   return (
     <>
-      <Button />
+      <Button label="test" />
     </>
   );
 };
