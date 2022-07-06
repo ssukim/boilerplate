@@ -21,9 +21,6 @@ export const todoSlice = createSlice({
     deleteTodo: (state, action: PayloadAction<string>) => {
       return state.filter((item) => item.id !== action.payload);
     },
-    // incrementByAmount: (state, action) => {
-    //   state.value += action.payload;
-    // },
   },
 });
 
