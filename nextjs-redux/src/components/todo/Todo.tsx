@@ -18,9 +18,12 @@ type Props = {
 export default function Todo({ initialTodo }: Props) {
   // hooks
   const useSelectorTodo = useAppSelector(selectTodoList);
+  const isLoading = useAppSelector((state) => state.todoReducer.status);
   const dispatch = useAppDispatch();
-  const { data, isValidating, error } = useSWR("/api/todo", fetcher);
-  
+
+  // using useSWR
+  // const { data, isValidating, error } = useSWR("/api/todo", fetcher);
+
   // state
   const [title, setTitle] = useState("");
 
@@ -44,11 +47,15 @@ export default function Todo({ initialTodo }: Props) {
   }, []);
 
   return (
-    <div>
+    <>
       <div>
         <Input onChange={(e) => onChange(e)} value={title} />
         <Button label="add" onClick={onClickAdd} />
-        <Button label="addAsync" onClick={onClickAddAsync} />
+        <Button
+          label={isLoading === "loading" ? "loadubg..." : "addAsync"}
+          disabled={isLoading === "loading"}
+          onClick={onClickAddAsync}
+        />
         <div>
           {useSelectorTodo.map((item) => (
             <div key={item.id}>
@@ -61,6 +68,6 @@ export default function Todo({ initialTodo }: Props) {
           ))}
         </div>
       </div>
-    </div>
+    </>
   );
 }

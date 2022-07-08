@@ -20,8 +20,9 @@ export default async function handler(
   res: NextApiResponse
 ) {
   const { method } = req;
-  console.log(req.body);
-  // await new Promise((resolve) => setTimeout(resolve, 2000));
+  // console.log(req.body);
+  // loading delay test
+  await new Promise((resolve) => setTimeout(resolve, 1000));
 
   switch (method) {
     case "GET": {
