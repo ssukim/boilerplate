@@ -1,8 +1,8 @@
 import axios from "axios";
 import { GetStaticProps, InferGetStaticPropsType } from "next";
-import { TodoState } from "../../../components/todo/todoSlice";
+import { TodoListState } from "../../../components/todoRedux/todoSlice";
 
-const Todo = ({ todo }: InferGetStaticPropsType<typeof getStaticProps>) => {
+const TodoDetail = ({ todo }: InferGetStaticPropsType<typeof getStaticProps>) => {
   console.log(todo);
 
   return <div>{todo.id}</div>;
@@ -36,7 +36,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
 export const getStaticPaths = async () => {
   const res = await axios
-    .get(`${process.env.DEV_API_URL}/api/todo`)
+    .get(`http://localhost:3000/api/todo`)
     .then((res) => {
       return res.data;
     })
@@ -44,15 +44,15 @@ export const getStaticPaths = async () => {
       console.log(error);
     });
 
-  const todo = res.map((item: TodoState) => ({
+  const todo = res?.map((item: TodoListState) => ({
     params: {
       id: item.id,
     },
   }));
   return {
-    paths: todo,
+    paths: todo || [],
     fallback: false,
   };
 };
 
-export default Todo;
+export default TodoDetail;

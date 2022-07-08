@@ -7,8 +7,8 @@ import type {
 } from "next";
 import Head from "next/head";
 import Image from "next/image";
-import Todo from "../../components/todo/Todo";
-import { TodoState } from "../../components/todo/todoSlice";
+import TodoRedux from "../../components/todoRedux/TodoRedux";
+import { TodoState } from "../../components/todoRedux/todoSlice";
 import axios from "axios";
 import styles from "../styles/Home.module.css";
 import CommonLayout from "../../components/common/layout/CommonLayout";
@@ -62,15 +62,15 @@ export const getStaticProps: GetStaticProps = async () => {
   };
 };
 
-const Todos = ({
+const TodoList = ({
   todoData,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
     <CommonLayout>
       <HeadInfo title="todo practice" keywordContents="todo practice nextjs" />
-      <Todo initialTodo={todoData} />
+      <TodoRedux initialTodo={todoData} />
     </CommonLayout>
   );
 };
 
-export default Todos;
+export default TodoList;

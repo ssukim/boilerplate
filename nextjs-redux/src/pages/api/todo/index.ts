@@ -1,9 +1,8 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next";
-import { TodoListState, TodoState } from "../../../components/todo/todoSlice";
 
 const setTodoMockArr = () => {
-  const mockArr: TodoListState[] = [];
+  const mockArr: any[] = [];
 
   for (let i = 0; i <= 10; i++) {
     mockArr.push({
@@ -22,7 +21,7 @@ export default async function handler(
   const { method } = req;
   // console.log(req.body);
   // loading delay test
-  await new Promise((resolve) => setTimeout(resolve, 1000));
+  // await new Promise((resolve) => setTimeout(resolve, 1000));
 
   switch (method) {
     case "GET": {

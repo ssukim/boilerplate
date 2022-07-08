@@ -10,12 +10,12 @@ import {
 import _uniqueId from "lodash/uniqueId";
 import Input from "../common/input/Input";
 import Button from "../common/button/Button";
-import { fetcher, useAppDispatch, useAppSelector } from "../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 
 type Props = {
   initialTodo: TodoListState[];
 };
-export default function Todo({ initialTodo }: Props) {
+export default function TodoRedux({ initialTodo }: Props) {
   // hooks
   const useSelectorTodo = useAppSelector(selectTodoList);
   const isLoading = useAppSelector((state) => state.todoReducer.status);
