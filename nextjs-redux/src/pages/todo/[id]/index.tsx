@@ -1,8 +1,8 @@
 import axios from "axios";
 import { GetStaticProps, InferGetStaticPropsType } from "next";
-import { TodoListState } from "../../../components/todoRedux/todoSlice";
+import { TodoListState } from "../../../components/todoList/todoSlice";
 
-const TodoDetail = ({
+const TodoDetailPage = ({
   todo,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   console.log(todo);
@@ -19,15 +19,13 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
   const { id } = context.params;
   const todo = await axios
-    .get(`${process.env.DEV_API_URL}/api/todo/${id}`)
+    .get(`https://jsonplaceholder.typicode.com/posts/${id}`)
     .then((res) => {
       return res.data;
     })
     .catch((error) => {
       console.log(error);
     });
-
-  //   const todo = await res.json();
 
   return {
     props: {
@@ -37,24 +35,26 @@ export const getStaticProps: GetStaticProps = async (context) => {
 };
 
 export const getStaticPaths = async () => {
-  // const res = await axios
-  //   .get(`${process.env.DEV_API_URL}/api/todo`)
-  //   .then((res) => {
-  //     return res.data;
-  //   })
-  //   .catch((error) => {
-  //     console.log(error);
-  //   });
+  const res = await axios
+    .get("https://jsonplaceholder.typicode.com/posts", {
+      params: { _start: "0", _end: "10" },
+    })
+    .then((res) => {
+      return res.data;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 
-  // const todo = res?.map((item: TodoListState) => ({
-  //   params: {
-  //     id: item.id,
-  //   },
-  // }));
+  const todo = res?.map((item: TodoListState) => ({
+    params: {
+      id: item.id.toString(),
+    },
+  }));
   return {
-    paths: [],
+    paths: todo,
     fallback: false,
   };
 };
 
-export default TodoDetail;
+export default TodoDetailPage;

@@ -7,13 +7,12 @@ import type {
 } from "next";
 import Head from "next/head";
 import Image from "next/image";
-import TodoRedux from "../../components/todoRedux/TodoRedux";
-import { TodoState } from "../../components/todoRedux/todoSlice";
+// import TodoList from "../../components/todoList/TodoList";
+import { TodoState } from "../../components/todoList/todoSlice";
 import axios from "axios";
 import CommonLayout from "../../components/common/layout/CommonLayout";
 import HeadInfo from "../../components/common/headInfo/HeadInfo";
-import TodoSWR from "../../components/todoSWR/TodoListSwr";
-import { SWRConfig } from "swr";
+import TodoList from "../../components/todoList/TodoRedux";
 
 // 공식문서에서 getServerSideProps보다는 getStaticProps를 권고
 //   export const getServerSideProps: GetServerSideProps = async () => {
@@ -39,14 +38,16 @@ import { SWRConfig } from "swr";
 //   }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
 //     return (
 //       <>
-//        <TodoRedux initialTodo={todoData}/>
+//        <TodoList initialTodo={todoData}/>
 //       </>
 //     );
 //   };
 
 export const getStaticProps: GetStaticProps = async () => {
   const todoData = await axios
-    .get(`${process.env.DEV_API_URL}/api/todo`)
+    .get("https://jsonplaceholder.typicode.com/posts", {
+      params: { _start: "0", _end: "10" },
+    })
     .then((res) => {
       return res.data;
     })
@@ -57,31 +58,20 @@ export const getStaticProps: GetStaticProps = async () => {
 
   return {
     props: {
-      fallback: {
-        todoData,
-      },
+      todoData,
     },
   };
 };
 
-const TodoList = ({
-  fallback,
+const TodoListPage = ({
+  todoData,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
-    <SWRConfig value={fallback}>
-      <CommonLayout>
-        <HeadInfo
-          title="todo practice"
-          keywordContents="todo practice nextjs"
-        />
-        <TodoSWR />
-      </CommonLayout>
-    </SWRConfig>
-    //   <CommonLayout>
-    //   <HeadInfo title="todo practice" keywordContents="todo practice nextjs" />
-    //   <TodoRedux initialTodo={todoData} />
-    // </CommonLayout>
+    <CommonLayout>
+      <HeadInfo title="todo practice" keywordContents="todo practice nextjs" />
+      <TodoList initialTodo={todoData} />
+    </CommonLayout>
   );
 };
 
-export default TodoList;
+export default TodoListPage;

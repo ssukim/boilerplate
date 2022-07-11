@@ -1,5 +1,5 @@
 import { Action, AnyAction, configureStore, ThunkAction } from "@reduxjs/toolkit";
-import todoReducer, { TodoListState, TodoState } from "../components/todoRedux/todoSlice";
+import todoReducer, { TodoListState, TodoState } from "../components/todoList/todoSlice";
 import thunkMiddleware from 'redux-thunk';
 
 export function makeStore() {

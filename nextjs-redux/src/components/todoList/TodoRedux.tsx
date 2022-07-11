@@ -17,14 +17,11 @@ import Link from "next/link";
 type Props = {
   initialTodo: TodoListState[];
 };
-export default function TodoRedux({ initialTodo }: Props) {
+export default function TodoList({ initialTodo }: Props) {
   // hooks
   const useSelectorTodo = useAppSelector(selectTodoList);
   const isLoading = useAppSelector((state) => state.todoReducer.status);
   const dispatch = useAppDispatch();
-
-  // using useSWR
-  // const { data, isValidating, error } = useSWR("/api/todo", fetcher);
 
   // state
   const [title, setTitle] = useState("");
@@ -46,7 +43,7 @@ export default function TodoRedux({ initialTodo }: Props) {
     // initialTodo.forEach((item) => {
     //   dispatch(addTodo(item));
     // });
-    dispatch(initTodo(initialTodo))
+    dispatch(initTodo(initialTodo));
   }, []);
 
   return (
