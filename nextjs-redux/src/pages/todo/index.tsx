@@ -5,14 +5,10 @@ import type {
   InferGetStaticPropsType,
   NextPage,
 } from "next";
-import Head from "next/head";
-import Image from "next/image";
-// import TodoList from "../../components/todoList/TodoList";
-import { TodoState } from "../../components/todoList/todoSlice";
 import axios from "axios";
 import CommonLayout from "../../components/common/layout/CommonLayout";
 import HeadInfo from "../../components/common/headInfo/HeadInfo";
-import TodoList from "../../components/todoList/TodoRedux";
+import TodoList from "../../components/todoList/TodoList";
 
 // 공식문서에서 getServerSideProps보다는 getStaticProps를 권고
 //   export const getServerSideProps: GetServerSideProps = async () => {
