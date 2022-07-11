@@ -1,25 +1,19 @@
 import axios from "axios";
 import { uniqueId } from "lodash";
 import { useState } from "react";
-import useSWR, { useSWRConfig } from "swr";
-import { fetcher } from "../../app/hooks";
+import { useSWRConfig } from "swr";
 import useTodoHook from "../../app/useTodoHook";
 import Button from "../common/button/Button";
 import Input from "../common/input/Input";
-import { TodoListState } from "../todoRedux/todoSlice";
-import TodoItemSwr from "./TodoItemSwr";
+import TodoItemSwr from "./TodoItem";
 
 export default function TodoListSwr() {
   const { data, error, isValidating } = useTodoHook();
-  console.log(
-    "🚀 ~ file: TodoListSwr.tsx ~ line 18 ~ TodoListSwr ~ isValidating",
-    isValidating
-  );
+
   const { mutate } = useSWRConfig();
 
   // state
   const [title, setTitle] = useState("");
-  const [todo, setTodo] = useState<TodoListState[]>([]);
 
   const onClickAdd = async () => {
     const res = await axios

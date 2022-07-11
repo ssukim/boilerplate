@@ -1,6 +1,6 @@
 import axios from "axios";
 import useSWR from "swr";
-import { TodoListState } from "../components/todoRedux/todoSlice";
+import { TodoListState } from "./type";
 
 export default () => {
   const { data, error, isValidating, mutate } = useSWR(
