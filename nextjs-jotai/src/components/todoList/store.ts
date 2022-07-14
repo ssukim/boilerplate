@@ -36,8 +36,8 @@ export const asyncAddTodoListAtom = atom(
     const fetch = async () => {
       try {
         set(todoListLoadingAtom, true);
-        const response = await postTodoList(update);
-        set(todoListAtom, get(todoListAtom).concat(response));
+        await postTodoList(update);
+        set(todoListAtom, [update].concat(get(todoListAtom)));
       } catch (error) {
         console.error(error);
       } finally {

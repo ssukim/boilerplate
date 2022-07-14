@@ -64,14 +64,15 @@ export default function TodoList({ initialTodo }: Props) {
         />
         <Button label="reset" onClick={resetTodoList} />
         <div>
-          {todoList.map((item) => (
-            <div key={item.id}>
-              <Link href={`/todo/${item.id}`}>
-                <a>{item.title}</a>
-              </Link>
-              <Button label="delete" onClick={() => onClickDelete(item.id)} />
-            </div>
-          ))}
+          {todoList.length > 0 &&
+            todoList.map((item) => (
+              <div key={item.id}>
+                <Link href={`/todo/${item.id}`}>
+                  <a>{item.title}</a>
+                </Link>
+                <Button label="delete" onClick={() => onClickDelete(item.id)} />
+              </div>
+            ))}
         </div>
       </div>
     </>

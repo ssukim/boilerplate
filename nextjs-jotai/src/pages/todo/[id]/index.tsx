@@ -19,7 +19,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
   const { id } = context.params;
   const todo = await axios
-    .get(`https://jsonplaceholder.typicode.com/posts/${id}`)
+    .get(`https://development/api/posts/${id}`)
     .then((res) => {
       return res.data;
     })
@@ -31,12 +31,13 @@ export const getStaticProps: GetStaticProps = async (context) => {
     props: {
       todo,
     },
+    revalidate: true,
   };
 };
 
 export const getStaticPaths = async () => {
   const res = await axios
-    .get("https://jsonplaceholder.typicode.com/posts", {
+    .get("https://development/api/posts", {
       params: { _start: "0", _end: "10" },
     })
     .then((res) => {
@@ -53,7 +54,7 @@ export const getStaticPaths = async () => {
   }));
   return {
     paths: todo,
-    fallback: false,
+    fallback: "blocking",
   };
 };
 
