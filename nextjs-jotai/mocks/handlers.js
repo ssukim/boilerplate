@@ -1,4 +1,6 @@
 import { rest } from "msw";
+import bcrypt from "bcryptjs";
+import { usersRepo } from "../helpers/api/users-repo";
 
 const todos = Array.from({ length: 10 })
   .map((_, index) => ({
@@ -8,9 +10,34 @@ const todos = Array.from({ length: 10 })
   .reverse();
 
 export const handlers = [
-  rest.post("https://development/api/login", (req, res, ctx) => {
+  rest.post("https://development/api/auth/login", (req, res, ctx) => {
     // Persist user's authentication in the session
     sessionStorage.setItem("is-authenticated", "true");
+    console.log(req.body);
+
+    return res(
+      // Respond with a 200 status code
+      ctx.status(200)
+    );
+  }),
+  rest.post("https://development/api/auth/register", (req, res, ctx) => {
+    // validate
+    const { password, username } = req.body;
+    console.log(
+      "🚀 ~ file: handlers.js ~ line 28 ~ rest.post ~ username",
+      username
+    );
+
+    if (usersRepo.find((x) => x.username === username))
+      throw `User with the username "${username}" already exists`;
+
+    const user = {
+      username,
+      hash: bcrypt.hashSync(password, 10),
+    };
+
+    usersRepo.create(user);
+
     return res(
       // Respond with a 200 status code
       ctx.status(200)

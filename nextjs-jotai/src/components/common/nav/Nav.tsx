@@ -1,5 +1,5 @@
 import Link from "next/link";
-import styles from './Nav.module.css'
+import styles from "./Nav.module.css";
 
 export default function Nav() {
   return (
@@ -13,6 +13,11 @@ export default function Nav() {
         <li>
           <Link href={"/todo"}>
             <a>Todo</a>
+          </Link>
+        </li>
+        <li>
+          <Link href={"/auth"}>
+            <a>Login</a>
           </Link>
         </li>
       </ul>
