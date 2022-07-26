@@ -1,4 +1,5 @@
 import { useUpdateAtom } from "jotai/utils";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import Button from "../../components/common/button/Button";
 import Input from "../../components/common/input/Input";
@@ -9,6 +10,8 @@ import {
 } from "../../store/account";
 
 export default function AuthPage() {
+  const router = useRouter();
+
   const asyncLogin = useUpdateAtom(asyncAccountLoginAtom);
   const asyncRegister = useUpdateAtom(asyncAccountRegisterAtom);
 
@@ -21,6 +24,7 @@ export default function AuthPage() {
       password,
     });
   };
+
   return (
     <CommonLayout>
       <div style={{ width: "200px" }}>

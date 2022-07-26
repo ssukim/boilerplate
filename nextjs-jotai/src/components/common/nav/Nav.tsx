@@ -16,8 +16,23 @@ export default function Nav() {
           </Link>
         </li>
         <li>
-          <Link href={"/auth"}>
+          <Link
+            href={{
+              pathname: "/auth",
+              query: { isRegister: false },
+            }}
+          >
             <a>Login</a>
+          </Link>
+        </li>
+        <li>
+          <Link
+            href={{
+              pathname: "/auth",
+              query: { isRegister: true },
+            }}
+          >
+            <a>Register</a>
           </Link>
         </li>
       </ul>

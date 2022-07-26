@@ -23,11 +23,6 @@ export const handlers = [
   rest.post("https://development/api/auth/register", (req, res, ctx) => {
     // validate
     const { password, username } = req.body;
-    console.log(
-      "🚀 ~ file: handlers.js ~ line 28 ~ rest.post ~ username",
-      username
-    );
-
     if (usersRepo.find((x) => x.username === username))
       throw `User with the username "${username}" already exists`;
 
