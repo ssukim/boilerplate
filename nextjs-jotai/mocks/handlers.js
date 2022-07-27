@@ -30,7 +30,6 @@ export const handlers = [
         expiresIn: "7d",
       }
     );
-    console.log("🚀 ~ file: handlers.js ~ line 31 ~ rest.post ~ token", token);
 
     // Persist user's authentication in the session
     sessionStorage.setItem("is-authenticated", "true");
@@ -38,7 +37,11 @@ export const handlers = [
 
     return res(
       // Respond with a 200 status code
-      ctx.status(200)
+      ctx.status(200),
+      ctx.json({
+        username,
+        token,
+      })
     );
   }),
   rest.post("https://development/api/auth/register", (req, res, ctx) => {

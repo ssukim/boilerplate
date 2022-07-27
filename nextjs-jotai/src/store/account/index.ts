@@ -2,7 +2,7 @@ import axios from "axios";
 import { atom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
 import { update } from "lodash";
-import client from "../client";
+import client, { applyToken } from "../client";
 
 export type UserProps = {
   username: string;
@@ -21,11 +21,10 @@ export const asyncAccountLoginAtom = atom(
     const fetch = async () => {
       try {
         set(accountLoadingAtom, true);
-        await client
-          .post("/auth/login", params)
-          .then((res) => {
-            console.log(res);
-          });
+        await client.post("/auth/login", params).then((res) => {
+          applyToken(res.data.token);
+          localStorage.setItem("user", JSON.stringify(res.data));
+        });
       } catch (error) {
         console.log(error);
       } finally {
@@ -42,11 +41,9 @@ export const asyncAccountRegisterAtom = atom(
     const fetch = async () => {
       try {
         set(accountLoadingAtom, true);
-        await client
-          .post("/auth/register", params)
-          .then((res) => {
-            console.log(res);
-          });
+        await client.post("/auth/register", params).then((res) => {
+          console.log(res);
+        });
       } catch (error) {
         console.log(error);
       } finally {
