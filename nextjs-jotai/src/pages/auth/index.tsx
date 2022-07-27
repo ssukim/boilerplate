@@ -1,6 +1,6 @@
 import { useUpdateAtom } from "jotai/utils";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import Button from "../../components/common/button/Button";
 import Input from "../../components/common/input/Input";
 import CommonLayout from "../../components/common/layout/CommonLayout";
@@ -8,9 +8,18 @@ import {
   asyncAccountLoginAtom,
   asyncAccountRegisterAtom,
 } from "../../store/account";
+import getConfig from "next/config";
+
+// Only holds serverRuntimeConfig and publicRuntimeConfig
+const { serverRuntimeConfig, publicRuntimeConfig } = getConfig();
+// Will only be available on the server-side
+console.log(serverRuntimeConfig);
+// Will be available on both server-side and client-side
+console.log(publicRuntimeConfig);
 
 export default function AuthPage() {
   const router = useRouter();
+  const { isRegister } = router.query;
 
   const asyncLogin = useUpdateAtom(asyncAccountLoginAtom);
   const asyncRegister = useUpdateAtom(asyncAccountRegisterAtom);
@@ -18,16 +27,25 @@ export default function AuthPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const onClickLogin = () => {
-    asyncRegister({
-      username,
-      password,
-    });
+  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (isRegister === "true") {
+      asyncRegister({
+        username,
+        password,
+      });
+    } else {
+      asyncLogin({
+        username,
+        password,
+      });
+    }
   };
 
   return (
     <CommonLayout>
-      <div style={{ width: "200px" }}>
+      <form style={{ width: "200px" }} onSubmit={(e) => onSubmit(e)}>
         <div style={{ marginBottom: "5px" }}>username</div>
         <Input
           value={username}
@@ -47,9 +65,9 @@ export default function AuthPage() {
             marginTop: "5px",
           }}
         >
-          <Button label="login" onClick={onClickLogin} />
+          <Button label={isRegister === "true" ? "register" : "login"} />
         </div>
-      </div>
+      </form>
     </CommonLayout>
   );
 }

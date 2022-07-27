@@ -1,5 +1,7 @@
 import { rest } from "msw";
 import bcrypt from "bcryptjs";
+import getConfig from "next/config";
+import jwt from "jsonwebtoken";
 import { usersRepo } from "../helpers/api/users-repo";
 
 const todos = Array.from({ length: 10 })
@@ -9,8 +11,27 @@ const todos = Array.from({ length: 10 })
   }))
   .reverse();
 
+const { publicRuntimeConfig } = getConfig();
+
 export const handlers = [
   rest.post("https://development/api/auth/login", (req, res, ctx) => {
+    const { username, password } = req.body;
+    const user = usersRepo.find((u) => u.username === username);
+
+    // validate
+    if (!(user && bcrypt.compareSync(password, user.hash))) {
+      throw "Username or password is incorrect";
+    }
+
+    const token = jwt.sign(
+      { sub: user.username },
+      "THIS IS USED TO SIGN AND VERIFY JWT TOKENS, REPLACE IT WITH YOUR OWN SECRET, IT CAN BE ANY STRING",
+      {
+        expiresIn: "7d",
+      }
+    );
+    console.log("🚀 ~ file: handlers.js ~ line 31 ~ rest.post ~ token", token);
+
     // Persist user's authentication in the session
     sessionStorage.setItem("is-authenticated", "true");
     console.log(req.body);
