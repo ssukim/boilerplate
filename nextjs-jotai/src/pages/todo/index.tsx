@@ -6,7 +6,7 @@ import TodoList from "../../components/todoList/TodoList";
 
 export const getStaticProps: GetStaticProps = async () => {
   const todoData = await axios
-    .get("https://development/api/posts")
+    .get("https://development/api/todos")
     .then((res) => {
       return res.data;
     })

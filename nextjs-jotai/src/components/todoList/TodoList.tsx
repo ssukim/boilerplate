@@ -11,10 +11,11 @@ import {
   todoListAtom,
   todoListLoadingAtom,
   TodoListProps,
-} from "./store";
+} from "../../store/todo";
 import { useAtomValue } from "jotai";
 import uniqueId from "lodash/uniqueId";
 import { useHydrateAtoms, useResetAtom, useUpdateAtom } from "jotai/utils";
+import { accountUserAtom, readAccountAtom } from "../../store/account";
 
 type Props = {
   initialTodo: TodoListProps[];
@@ -24,6 +25,7 @@ export default function TodoList({ initialTodo }: Props) {
 
   // atom
   const todoList = useAtomValue(readTodoListAtom);
+  const user = useAtomValue(readAccountAtom);
   const addTodoList = useUpdateAtom(addTodoListAtom);
   const deleteTodoList = useUpdateAtom(deleteTodoListAtom);
   const asyncAddTodoList = useUpdateAtom(asyncAddTodoListAtom);
@@ -52,6 +54,9 @@ export default function TodoList({ initialTodo }: Props) {
     setTitle("");
   };
 
+  useEffect(() => {
+    console.log("🚀 ~ file: TodoList.tsx ~ line 29 ~ TodoList ~ user", user);
+  }, []);
   return (
     <>
       <div>

@@ -1,6 +1,6 @@
-import { useUpdateAtom } from "jotai/utils";
+import { FormEvent, useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { FormEvent, useState } from "react";
+import { useAtomValue, useUpdateAtom } from "jotai/utils";
 import Button from "../../components/common/button/Button";
 import Input from "../../components/common/input/Input";
 import CommonLayout from "../../components/common/layout/CommonLayout";
@@ -8,14 +8,7 @@ import {
   asyncAccountLoginAtom,
   asyncAccountRegisterAtom,
 } from "../../store/account";
-import getConfig from "next/config";
-
-// Only holds serverRuntimeConfig and publicRuntimeConfig
-const { serverRuntimeConfig, publicRuntimeConfig } = getConfig();
-// Will only be available on the server-side
-console.log(serverRuntimeConfig);
-// Will be available on both server-side and client-side
-console.log(publicRuntimeConfig);
+import { readTodoListAtom } from "../../store/todo";
 
 export default function AuthPage() {
   const router = useRouter();
@@ -56,6 +49,7 @@ export default function AuthPage() {
         <Input
           type={"password"}
           value={password}
+          autoComplete="off"
           onChange={(e) => setPassword(e.currentTarget.value)}
         />
         <div

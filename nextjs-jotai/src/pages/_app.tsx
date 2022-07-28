@@ -3,23 +3,40 @@ if (process.env.NEXT_PUBLIC_API_MOCKING === "enabled") {
 }
 
 import "../styles/globals.css";
-import type { AppProps } from "next/app";
-import { Provider } from "jotai";
-import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
+import type { AppContext, AppProps } from "next/app";
+import { Atom, Provider, useAtom, useAtomValue } from "jotai";
+import { useEffect } from "react";
+import {
+  accountUserAtom,
+  addAccountAtom,
+  readAccountAtom,
+} from "../store/account";
+import { useUpdateAtom } from "jotai/utils";
+import { applyToken } from "../store/client";
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const router = useRouter();
-  const [user, setUser] = useState(null);
+  // const setUser = useUpdateAtom(addAccountAtom);
+  // const user = useAtomValue(readAccountAtom);
 
-  useEffect(() => {
-    authCheck(router.asPath);
-  }, []);
-
-  function authCheck(url: string) {}
+  // useEffect(() => {
+  //   const auth = localStorage.getItem("user");
+  //   if (!auth) {
+  //     return;
+  //   }
+  //   const pasingAuth = JSON.parse(auth);
+  //   setUser({
+  //     username: pasingAuth.username,
+  //     token: pasingAuth.token,
+  //   });
+  //   applyToken(pasingAuth.token);
+  // }, [setUser]);
 
   return (
-    <Provider>
+    <Provider
+    // initialValues={
+    //   [[accountUserAtom, user]] as Array<[Atom<unknown>, unknown]>
+    // }
+    >
       <Component {...pageProps} />
     </Provider>
   );

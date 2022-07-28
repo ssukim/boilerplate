@@ -1,6 +1,6 @@
 import axios from "axios";
 import { GetStaticProps, InferGetStaticPropsType } from "next";
-import { TodoListProps } from "../../../components/todoList/store";
+import { TodoListProps } from "../../../store/todo";
 
 const TodoDetailPage = ({
   todo,
@@ -19,7 +19,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
   const { id } = context.params;
   const todo = await axios
-    .get(`https://development/api/posts/${id}`)
+    .get(`https://development/api/todos/${id}`)
     .then((res) => {
       return res.data;
     })
@@ -37,7 +37,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
 export const getStaticPaths = async () => {
   const res = await axios
-    .get("https://development/api/posts", {
+    .get("https://development/api/todos", {
       params: { _start: "0", _end: "10" },
     })
     .then((res) => {

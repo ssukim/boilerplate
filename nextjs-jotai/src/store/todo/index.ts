@@ -1,6 +1,6 @@
+import axios from "axios";
 import { atom } from "jotai";
 import { atomWithReset } from "jotai/utils";
-import { postTodoList } from "./api";
 
 export interface TodoListProps {
   id: string;
@@ -36,7 +36,7 @@ export const asyncAddTodoListAtom = atom(
     const fetch = async () => {
       try {
         set(todoListLoadingAtom, true);
-        await postTodoList(update);
+        await axios.post("https://development/api/todos", update);
         set(todoListAtom, [update].concat(get(todoListAtom)));
       } catch (error) {
         console.error(error);
