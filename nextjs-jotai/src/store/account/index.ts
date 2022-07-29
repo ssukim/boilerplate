@@ -1,7 +1,5 @@
-import axios from "axios";
 import { atom } from "jotai";
-import { atomWithReset, atomWithStorage } from "jotai/utils";
-import { update } from "lodash";
+import { atomWithStorage } from "jotai/utils";
 import client, { applyToken } from "../client";
 
 export type UserProps = {
@@ -34,7 +32,8 @@ export const asyncAccountLoginAtom = atom(null, (_, set, params: UserProps) => {
       set(accountLoadingAtom, true);
       await client.post("/auth/login", params).then((res) => {
         applyToken(res.data.token);
-        localStorage.setItem("user", JSON.stringify(res.data));
+        // localStorage.setItem("user", JSON.stringify(res.data));
+        set(accountUserAtom, res.data);
       });
     } catch (error) {
       console.log(error);

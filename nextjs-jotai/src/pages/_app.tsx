@@ -16,20 +16,13 @@ import { applyToken } from "../store/client";
 
 function MyApp({ Component, pageProps }: AppProps) {
   // const setUser = useUpdateAtom(addAccountAtom);
-  // const user = useAtomValue(readAccountAtom);
+  const user = useAtomValue(readAccountAtom);
 
-  // useEffect(() => {
-  //   const auth = localStorage.getItem("user");
-  //   if (!auth) {
-  //     return;
-  //   }
-  //   const pasingAuth = JSON.parse(auth);
-  //   setUser({
-  //     username: pasingAuth.username,
-  //     token: pasingAuth.token,
-  //   });
-  //   applyToken(pasingAuth.token);
-  // }, [setUser]);
+  useEffect(() => {
+    if (user?.token) {
+      applyToken(user.token);
+    }
+  }, []);
 
   return (
     <Provider

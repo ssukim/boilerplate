@@ -5,10 +5,12 @@ import Button from "../../components/common/button/Button";
 import Input from "../../components/common/input/Input";
 import CommonLayout from "../../components/common/layout/CommonLayout";
 import {
+  addAccountAtom,
   asyncAccountLoginAtom,
   asyncAccountRegisterAtom,
 } from "../../store/account";
 import { readTodoListAtom } from "../../store/todo";
+import { clearToken } from "../../store/client";
 
 export default function AuthPage() {
   const router = useRouter();
@@ -16,6 +18,7 @@ export default function AuthPage() {
 
   const asyncLogin = useUpdateAtom(asyncAccountLoginAtom);
   const asyncRegister = useUpdateAtom(asyncAccountRegisterAtom);
+  const setUser = useUpdateAtom(addAccountAtom);
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -34,6 +37,11 @@ export default function AuthPage() {
         password,
       });
     }
+  };
+
+  const onLogout = () => {
+    setUser(null);
+    clearToken();
   };
 
   return (
@@ -62,6 +70,18 @@ export default function AuthPage() {
           <Button label={isRegister === "true" ? "register" : "login"} />
         </div>
       </form>
+      {isRegister === "false" && (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "flex-end",
+            width: "200px",
+            marginTop: "5px",
+          }}
+        >
+          <Button label="logout" onClick={onLogout} />
+        </div>
+      )}
     </CommonLayout>
   );
 }
