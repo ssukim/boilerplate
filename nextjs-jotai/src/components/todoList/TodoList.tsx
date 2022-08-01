@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import _uniqueId from "lodash/uniqueId";
 import Input from "../common/input/Input";
 import Button from "../common/button/Button";
@@ -20,7 +20,7 @@ import { accountUserAtom, readAccountAtom } from "../../store/account";
 type Props = {
   initialTodo: TodoListProps[];
 };
-export default function TodoList({ initialTodo }: Props) {
+function TodoList({ initialTodo }: Props) {
   useHydrateAtoms([[todoListAtom, initialTodo]] as const);
 
   // atom
@@ -54,9 +54,6 @@ export default function TodoList({ initialTodo }: Props) {
     setTitle("");
   };
 
-  useEffect(() => {
-    console.log("🚀 ~ file: TodoList.tsx ~ line 29 ~ TodoList ~ user", user);
-  }, []);
   return (
     <>
       <div>
@@ -83,3 +80,5 @@ export default function TodoList({ initialTodo }: Props) {
     </>
   );
 }
+
+export default TodoList;

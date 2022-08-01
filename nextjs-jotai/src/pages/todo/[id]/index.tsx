@@ -1,5 +1,6 @@
 import axios from "axios";
 import { GetStaticProps, InferGetStaticPropsType } from "next";
+import client from "../../../store/client";
 import { TodoListProps } from "../../../store/todo";
 
 const TodoDetailPage = ({
@@ -18,7 +19,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
   }
 
   const { id } = context.params;
-  const todo = await axios
+  const todo = await client
     .get(`https://development/api/todos/${id}`)
     .then((res) => {
       return res.data;

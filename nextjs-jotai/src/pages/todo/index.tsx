@@ -1,11 +1,11 @@
 import type { GetStaticProps, InferGetStaticPropsType } from "next";
-import axios from "axios";
 import CommonLayout from "../../components/common/layout/CommonLayout";
 import HeadInfo from "../../components/common/headInfo/HeadInfo";
 import TodoList from "../../components/todoList/TodoList";
+import client from "../../store/client";
 
 export const getStaticProps: GetStaticProps = async () => {
-  const todoData = await axios
+  const todoData = await client
     .get("https://development/api/todos")
     .then((res) => {
       return res.data;
